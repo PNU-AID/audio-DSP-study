@@ -8,5 +8,5 @@
 
 ## 참여 인원
 - [강감찬](https://github.com/gsgh3016)
-- 이가현
-- 최시원
+- [이가현](https://github.com/best11gh)
+- [최시원](https://github.com/GoodbyeWorld1)
