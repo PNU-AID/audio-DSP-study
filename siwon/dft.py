@@ -17,21 +17,23 @@ class DFT:
             for j in range(self.point):
                 multiplier[i][j]=i*j
         self.convArray=np.power(self.convArray,multiplier)/np.sqrt(self.point)
+        #Create Window
+        self.wFuncX=np.arange(self.point) #Create X Axis Array
+        #Blackman Window
+        wAlpha=0.16
+        self.wBlackman=(1-wAlpha)/2-0.5*np.cos((2*np.pi/self.point)*self.wFuncX)+(wAlpha/2)*np.cos((4*np.pi/self.point)*self.wFuncX)
+        #Hann Window
+        self.wHann=np.power(np.sin(np.pi/self.point*self.wFuncX),2)
 
     def rectWindow(self,data,start):
         return data[start:start+self.point]
     
     def blackmanWindow(self,data,start):
-        funcX=np.arange(self.point)
-        alpha=0.16
-        funcY=(1-alpha)/2-0.5*np.cos((2*np.pi/self.point)*funcX)+(alpha/2)*np.cos((4*np.pi/self.point)*funcX)
-        out=data[start:start+self.point]*funcY
+        out=data[start:start+self.point]*self.wBlackman
         return out
     
     def hannWindow(self,data,start):
-        funcX=np.arange(self.point)
-        funcY=np.power(np.sin(np.pi/self.point*funcX),2)
-        out=data[start:start+self.point]*funcY
+        out=data[start:start+self.point]*self.wHann
         return out
     
     def dftSingle(self,data,start,window):
@@ -41,6 +43,8 @@ class DFT:
             d=self.blackmanWindow(data,start)
         elif window=='hann':
             d=self.hannWindow(data,start)
+        else:
+            raise ValueError('Undefined Window Type')
         return np.dot(self.convArray,d)[0:int(self.point/2)]
 
     def convertMag(self,data,window,overlap):
@@ -74,7 +78,7 @@ dataX=np.arange(0,1,1/sampleRate)
 #dataY=wavegen.generateSquare(1,1000,sampleRate)
 dataY=wavegen.generateSweep(1,100,2000,sampleRate)
 #Convert
-time,result=DFT1024.convertMag(dataY,'hann',128)
+time,result=DFT1024.convertMag(dataY,'blackman',128)
 #Draw Plot
 resultX=np.arange(0,sampleRate/2,sampleRate/transformPoint)
 #plt.plot(resultX,result[0:int(transformPoint/2)])
