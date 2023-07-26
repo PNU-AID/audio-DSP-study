@@ -44,7 +44,7 @@ class DFT:
             raise ValueError('Undefined Window Type')
         return np.dot(self.convArray,d)[0:int(self.point/2)]
 
-    def convertMag(self,data,window,overlap):
+    def convertMag(self,data,window,overlap,logscale=0):
         time=np.array([])
         result=np.array([])
         #Add Padding to data
@@ -56,6 +56,11 @@ class DFT:
             result=np.append(result,resultSingle)
         #Reshape Flattened Array
         result=np.reshape(result,(-1,int(self.point/2)))
+        #Normalize Result
+        result=result/np.max(result)
+        #Convert to log
+        if logscale:
+            result=20*np.log10(result)
         return time,result
     
     def addPadding(self,data):
