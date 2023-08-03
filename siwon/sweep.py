@@ -17,6 +17,6 @@ time,result=DFT1024.convertMag(dataY,'blackman',128)
 #Draw Plot
 resultX=np.arange(0,sampleRate/2,sampleRate/transformPoint)
 #plt.plot(resultX,result[0:int(transformPoint/2)])
-plt.figure(figsize=(12,5))
+plt.figure(figsize=(5,5))
 plt.pcolormesh(resultX,time,result,shading='gouraud')
 plt.show()

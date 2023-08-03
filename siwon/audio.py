@@ -14,5 +14,5 @@ freqAxis=np.arange(0,sampleRate/2,sampleRate/windowSize)
 timeAxis,result=dft.convertMag(audioData,'hann',256,1)
 #Draw Plot
 plt.figure(figsize=(5,5))
-plt.pcolormesh(freqAxis,timeAxis,result,shading='gouraud',cmap='magma')
+plt.pcolormesh(freqAxis,timeAxis,result,shading='gouraud',cmap='inferno')
 plt.show()
